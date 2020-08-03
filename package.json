@@ -4,13 +4,11 @@
   "description": "a weather api with redis cache",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix taskassigner && npm run build --prefix taskassigner"
+    "start": "nodemon server"    
   },
   "author": "amit singh",
   "license": "ISC",
-  "dependencies": {
-    "dotenv": "^8.2.0",
+  "dependencies": {    
     "express": "^4.17.1",
     "node-fetch": "^2.6.0",
     "redis": "^3.0.2"

@@ -1,10 +1,8 @@
 const express = require('express');
 const redis = require('redis');
 const fetch = require('node-fetch');
-const path = require('path');
 const {parseData} = require('./parseData')
 
-require('dotenv').config();
 
 const REDIS_PORT = process.env.PORT || 6379;
 const REDIS_HOST = "127.0.0.1"
@@ -34,15 +32,18 @@ async function getData(req, res){
     scode  = scode.toUpperCase();
 
     const response = await fetch(`https://tgftp.nws.noaa.gov/data/observations/metar/stations/${scode}.TXT`);
-    let data = await response.text();
-    
-    data  = data.replace(/(\r\n|\n|\r)/gm," ");   
-    let parsedData = await parseData(data)
 
-    client.hmset(scode, parsedData.data)  
-    client.expire(scode, 300);
+    if(!response.ok){
+      res.status(500).json({"err":response.statusText})
+    }else{
+      let data = await response.text();    
+      data  = data.replace(/(\r\n|\n|\r)/gm," ");   
+      let parsedData = await parseData(data)
+      client.hmset(scode, parsedData.data)  
+      client.expire(scode, 300);
 
-    res.status(400).json(parsedData)
+      res.status(400).json(parsedData)  
+    }    
 
 
   }catch(err){
@@ -95,7 +96,7 @@ app.use((err, req, res, next)=>{
 })
 
 
-const PORT = process.env.PORT || process.env.APP_PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
 
 app.listen(PORT, ()=>console.log('server stared at port ' + PORT ));
