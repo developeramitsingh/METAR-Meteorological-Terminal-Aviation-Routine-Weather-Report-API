@@ -43,7 +43,7 @@ async function getData(req, res){
       client.hmset(scode, parsedData.data)  
       client.expire(scode, 300);
 
-      res.status(400).json(parsedData)  
+      res.status(200).json(parsedData)  
     }    
 
 
@@ -64,7 +64,7 @@ function hasCache(req, res, next){
         console.log("Retrieved from cache...")
          client.hgetall(scode, (err, data)=>{
             if(err){res.status(500).json({"msg":err})}
-            res.status(400).json({data})
+            res.status(200).json({data})
          })
       }else{
         console.log("Doesn't exists...");
@@ -76,7 +76,7 @@ function hasCache(req, res, next){
 }
 
 app.get("/metar/ping", (req, res)=>{
-  res.status(400);
+  res.status(200);
   res.send({"data":"pong"});
 
 });
