@@ -4,9 +4,10 @@ const fetch = require('node-fetch');
 const {parseData} = require('./parseData')
 
 
-const REDIS_PORT = process.env.PORT || 6379;
-const REDIS_HOST = "127.0.0.1"
-const client = redis.createClient(REDIS_PORT, REDIS_HOST);
+const REDIS_PORT = process.env.PORT || 16349;
+const REDIS_HOST = process.env.REDISCLOUD_URL;
+
+const client = redis.createClient(REDIS_HOST, {no_ready_check: true});
 
 const app = express();
 
