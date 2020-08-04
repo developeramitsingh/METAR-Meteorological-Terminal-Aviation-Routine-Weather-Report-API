@@ -4,7 +4,7 @@
   "description": "a weather api with redis cache",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server"    
+    "start": "node server.js"    
   },
   "author": "amit singh",
   "license": "ISC",
